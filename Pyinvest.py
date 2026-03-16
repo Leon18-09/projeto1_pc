@@ -36,3 +36,64 @@ taxa_poupança = 0.005
 montante_poupanca = (capital *math.pow((1 + taxa_poupança), meses) + (aporte * meses) )
 
 #FII - SIMULAÇÕES
+valor_base_fii = (capital * math.pow((1 + taxa_fii), meses) + (aporte * meses))
+
+fii1 = valor_base_fii * (1 + random.uniform(-0.03, 0.03))
+fii2 = valor_base_fii * (1 + random.uniform(-0.03, 0.03))
+fii3 = valor_base_fii * (1 + random.uniform(-0.03, 0.03))
+fii4 = valor_base_fii * (1 + random.uniform(-0.03, 0.03))
+fii5 = valor_base_fii * (1 + random.uniform(-0.03, 0.03))
+
+lista_fii = [fii1, fii2, fii3, fii4, fii5]
+
+media_fii = statistics.mean(lista_fii)
+mediana_fii = statistics.median(lista_fii)
+desvio_fii = statistics.stdev(lista_fii)
+
+# DATA
+data_simulacao = datetime.datetime.now()
+data_resgate = data_simulacao + datetime.timedelta(days = meses * 30)
+
+# META
+meta_atingida = media_fii >= meta
+
+# GRÁFICOS ASCII
+
+graf_cdb = "█" * int(montante_cdb_liquido / 1000)
+graf_lci = "█" * int(montante_lci / 1000)
+graf_poup = "█" * int(montante_poupanca / 1000)
+graf_fii = "█" * int(media_fii / 1000)
+
+# RELATÓRIO FINAL
+
+print("\n===================================")
+print("PyInvest - Simulador de Investimentos")
+print("===================================")
+
+print("\nData da simulação:", data_simulacao.strftime("%d/%m/%Y"))
+print("Data estimada de resgate:", data_resgate.strftime("%d/%m/%Y"))
+
+print("\nTotal investido:", locale.currency(total_investido, grouping=True))
+
+print("\n--- RESULTADOS FINANCEIROS ---")
+
+print("\nCDB:", locale.currency(montante_cdb_liquido, grouping=True))
+print(graf_cdb)
+
+print("\nLCI/LCA:", locale.currency(montante_lci, grouping=True))
+print(graf_lci)
+
+print("\nPoupança:", locale.currency(montante_poupanca, grouping=True))
+print(graf_poup)
+
+print("\nFII (média):", locale.currency(media_fii, grouping=True))
+print(graf_fii)
+
+print("\n--- ESTATÍSTICAS FII ---")
+
+print("Mediana:", locale.currency(mediana_fii, grouping=True))
+print("Desvio padrão:", locale.currency(desvio_fii, grouping=True))
+
+print("\nMeta atingida:", meta_atingida)
+
+print("===================================")
